@@ -23,24 +23,20 @@ int main(int argc, char *argv[]){
     tramasTotales =0; aux =0;
     tramasTotales = atoi(argv[2]);
     auxtramasTotales = tramasTotales;
-
     //Reservacion de memoria para el analisis de las tramas
     eth_frames = malloc(tramasTotales*sizeof(Tramas));
     if(eth_frames == NULL){
         printf("\nError al momento de reservar memoria\n");
         exit(1);
     }
-
     //Creacion del socket
     pthread_attr_init(&thread_att);
     pthread_attr_setdetachstate(&thread_att, PTHREAD_CREATE_JOINABLE);
     socketRaw = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
-    
     if(socketRaw < 0){
         fprintf(Archivo,"\nError al crear socket\n");
         exit(1);
     }
-
     //Modo promiscuo tarjeta
     struct ifreq eth;
     bzero(&eth, sizeof(eth));
@@ -53,7 +49,6 @@ int main(int argc, char *argv[]){
         fprintf(Archivo,"Error en bind del socket y tarjeta de red");
         exit(1);        
     }
-
     Archivo = fopen("Analisis_de_tramas.txt", "w+");
     if(Archivo == NULL){
         fprintf(Archivo,"\nError al crear el fichero\n");
@@ -63,6 +58,14 @@ int main(int argc, char *argv[]){
     pthread_create(&thread2, &thread_att, AnalisisdeTrama, (void *)&socketRaw);
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
-    //fclose(Archivo);
+    
+    Resultados();
+    //Quitar modo promiscuo de la tarjeta de red
+    char ruta[100] = "";
+    char *tarjetared = argv[1];
+    snprintf(ruta,sizeof(ruta),"/sbin/ifconfig %s -promisc",tarjetared);
+    system(ruta);
+    close(socketRaw);
+    fclose(Archivo);
     return 0;
 }

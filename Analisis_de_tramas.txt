@@ -1,170 +1,121 @@
+Analizando trama -- 1 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 79 Bytes
+Identificador del datagrama: 33469	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 59 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: C1	Ultimo byte del datagrama: 47
 
--------------ANALISIS TRAMA NUM. 1-------------
+Analizando trama -- 2 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 798 Bytes
+Identificador del datagrama: 33468	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 778 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: C6	Ultimo byte del datagrama: 8C
 
-08 00 27 86 09 55 52 54 00 12 35 02 08 00 45 00 00 2C 81 15 00 00 40 06 76 A6 40 04 36 FE 0A 00 02 0F 01 BB BA 68 4D 2D D0 01 CA DC 93 06 60 12 FF FF DD CF 00 00 02 04 05 B4 00 00 
-Direccion IP fuente -> 64.4.54.254
-Direccion IP destino -> 10.0.2.15
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 44 Bytes
-Identificador del datagrama -> 33045
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 24 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> Si
-Numero de fragmento -> Unico
-1er byte del datagrama -> 85
-Ultimo byte del datagrama -> 08
+Analizando trama -- 3 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 117 Bytes
+Identificador del datagrama: 33467	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 97 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: 58	Ultimo byte del datagrama: 8D
 
--------------ANALISIS TRAMA NUM. 2-------------
+Analizando trama -- 4 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 40 Bytes
+Identificador del datagrama: 33466	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 20 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: 3F	Ultimo byte del datagrama: 3E
 
-52 54 00 12 35 02 08 00 27 86 09 55 08 00 45 00 00 3C 26 9F 40 00 40 06 91 0C 0A 00 02 0F 40 04 36 FE BA 68 01 BB CA DC 93 05 00 00 00 00 A0 02 FA F0 83 3F 00 00 02 04 05 B4 04 02 08 0A 33 76 35 B5 00 00 00 00 01 03 03 07 
-Direccion IP fuente -> 10.0.2.15
-Direccion IP destino -> 64.4.54.254
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 60 Bytes
-Identificador del datagrama -> 9887
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 40 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> No
-Numero de fragmento -> Ultimo
-1er byte del datagrama -> 98
-Ultimo byte del datagrama -> 66
+Analizando trama -- 5 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 40 Bytes
+Identificador del datagrama: 33465	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 20 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: 3F	Ultimo byte del datagrama: 3E
 
--------------ANALISIS TRAMA NUM. 3-------------
+Analizando trama -- 6 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 40 Bytes
+Identificador del datagrama: 33464	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 20 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: 3F	Ultimo byte del datagrama: 3E
 
-52 54 00 12 35 02 08 00 27 86 09 55 08 00 45 00 00 28 AF 79 40 00 40 06 5B 0D 0A 00 02 0F 23 AA 00 91 C0 DC 01 BB E0 C1 AA D1 09 EB EB FB 50 10 F5 3C 30 64 00 00 
-Direccion IP fuente -> 10.0.2.15
-Direccion IP destino -> 35.170.0.145
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 40 Bytes
-Identificador del datagrama -> 44921
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 20 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> No
-Numero de fragmento -> Ultimo
-1er byte del datagrama -> B4
-Ultimo byte del datagrama -> 17
+Analizando trama -- 7 --
+Direccion IP de fuente: 216.58.195.238	Direccion IP de destino: 10.0.2.15
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 40 Bytes
+Identificador del datagrama: 33463	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 20 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: Si  	Numero de fragmento: Unico
+Primer byte del datagrama: 3F	Ultimo byte del datagrama: 3E
 
--------------ANALISIS TRAMA NUM. 4-------------
+Analizando trama -- 8 --
+Direccion IP de fuente: 10.0.2.15	Direccion IP de destino: 216.58.195.238
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 1767 Bytes
+Identificador del datagrama: 37342	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 1747 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: No
+Primer byte del datagrama: 00	Ultimo byte del datagrama: 00
 
-08 00 27 86 09 55 52 54 00 12 35 02 08 00 45 00 01 6D 81 12 00 00 40 06 C8 2F 23 AA 00 91 0A 00 02 0F 01 BB C0 DC 09 EB EA B6 E0 C1 AA D1 50 18 FF FF E5 60 00 00 17 03 03 01 40 DA FE B2 25 DA B4 10 BF 44 6A 96 A1 0A 45 F9 03 DE DF 88 5D 0D F4 FD 1D DC C4 B0 EA 07 D9 F3 30 76 F2 09 50 41 1C 09 F6 5D 13 3E BB 7C 25 70 95 94 8C 5A E7 01 B8 D5 98 96 BB 0F 00 D6 B1 4E 9D 1A 70 48 09 C1 35 B0 83 00 E0 A9 DA 77 C4 69 3D C3 59 A1 5C 11 59 D1 E9 E2 E5 4D B1 0F B7 F6 59 54 F9 79 AB 0F 5B B4 12 05 3E 34 0A 80 8F 09 14 49 E7 06 E3 BC 23 77 0A 3D EB 31 8F B9 71 D2 D3 0D B7 55 49 2D 00 1D 30 E7 9D 73 F4 EE 6C 1C 22 DF 95 E1 10 59 E9 0F EE 56 2C B6 CF CF C4 0B C7 17 43 4C E0 82 19 A5 7C E0 85 6A 36 5B BC ED 57 F2 BA 15 31 88 B9 98 09 AF 01 D2 81 E3 FE E2 6B 73 FC 24 53 7C 7C 9B 53 0F FD 8B 0B 2E F5 BB DF 4C CF A1 B7 BA A5 AF 99 EE 87 97 45 47 56 71 99 8F 0E 08 07 C8 E9 C9 BF EA ED B5 31 9C C5 6C 84 8A A9 7F 61 D2 22 DA B7 B4 60 B0 9D 41 BC C6 B3 BE 2F 7C FD 1B B2 96 F8 C1 03 C8 9A DE FC D2 FD 19 EA A1 C2 DE 61 4A 2E F8 54 75 57 0D 6A 34 E3 F2 5F 95 D1 33 59 A6 3B 2A 0A 37 D8 1B CD 65 3B 48 57 BE 0A 95 91 66 F1 3A 31 CB 8D 27 3E 73 57 
-Direccion IP fuente -> 35.170.0.145
-Direccion IP destino -> 10.0.2.15
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 365 Bytes
-Identificador del datagrama -> 33042
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 345 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> Si
-Numero de fragmento -> Unico
-1er byte del datagrama -> 00
-Ultimo byte del datagrama -> 00
+Analizando trama -- 9 --
+Direccion IP de fuente: 10.0.2.15	Direccion IP de destino: 216.58.195.238
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 835 Bytes
+Identificador del datagrama: 37341	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 815 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: No
+Primer byte del datagrama: 00	Ultimo byte del datagrama: 00
 
--------------ANALISIS TRAMA NUM. 5-------------
+Analizando trama -- 10 --
+Direccion IP de fuente: 10.0.2.15	Direccion IP de destino: 216.58.195.238
+Longitud de cabecera: 20 Bytes  	Longitud total del datagrama IP: 193 Bytes
+Identificador del datagrama: 37340	TTL: 64 
+Protocolo de capa superior TCP: 0x06	Longitud de carga util: 173 Bytes 
+Tipo de servicio: Rutina
+Fragmentado: No
+Primer byte del datagrama: 00	Ultimo byte del datagrama: 00
 
-52 54 00 12 35 02 08 00 27 86 09 55 08 00 45 00 00 28 58 9F 40 00 40 06 57 A2 0A 00 02 0F 68 12 16 6E AC 4A 01 BB 84 C9 B4 B5 09 D6 00 CA 50 10 FF FF 8A A9 00 00 
-Direccion IP fuente -> 10.0.2.15
-Direccion IP destino -> 104.18.22.110
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 40 Bytes
-Identificador del datagrama -> 22687
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 20 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> No
-Numero de fragmento -> Ultimo
-1er byte del datagrama -> 20
-Ultimo byte del datagrama -> 17
+--Resultados finales--
+Total de tramas IPv4: 10
 
--------------ANALISIS TRAMA NUM. 6-------------
+Tramas analizadas de cada protocolo
+	ICMPv4: 0
+	IGMP: 0
+	IP: 0
+	TCP: 10
+	UDP: 0
+	IPv6: 0
+	OSPF: 0
 
-08 00 27 86 09 55 52 54 00 12 35 02 08 00 45 00 00 41 81 11 00 00 40 06 6F 17 68 12 16 6E 0A 00 02 0F 01 BB AC 4A 09 D6 00 B1 84 C9 B4 B5 50 18 FF FF FB AC 00 00 17 03 03 00 14 27 15 D6 EA FB BB FE 81 4A 12 99 CD 03 26 EE 71 2A 04 71 4F 
-Direccion IP fuente -> 104.18.22.110
-Direccion IP destino -> 10.0.2.15
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 65 Bytes
-Identificador del datagrama -> 33041
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 45 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> Si
-Numero de fragmento -> Unico
-1er byte del datagrama -> 4C
-Ultimo byte del datagrama -> 6B
+Total de tramas transmitidas y recibidas por direccion
+Total de direcciones: 2
 
--------------ANALISIS TRAMA NUM. 7-------------
+Direccion #1
+	IP: 216.58.195.238
+	Transmitidas: 7
+	Recibidas: 3
 
-08 00 27 86 09 55 52 54 00 12 35 02 08 00 45 00 00 28 81 10 00 00 40 06 C9 76 23 AA 00 91 0A 00 02 0F 01 BB C0 DC 09 EB EA B6 E0 C1 AA D1 50 10 FF FF 3C BE 00 00 00 00 00 00 00 00 
-Direccion IP fuente -> 35.170.0.145
-Direccion IP destino -> 10.0.2.15
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 40 Bytes
-Identificador del datagrama -> 33040
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 20 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> Si
-Numero de fragmento -> Unico
-1er byte del datagrama -> 20
-Ultimo byte del datagrama -> 00
+Direccion #2
+	IP: 10.0.2.15
+	Transmitidas: 3
+	Recibidas: 7
 
--------------ANALISIS TRAMA NUM. 8-------------
-
-52 54 00 12 35 02 08 00 27 86 09 55 08 00 45 00 01 48 AF 78 40 00 40 06 59 EE 0A 00 02 0F 23 AA 00 91 C0 DC 01 BB E0 C1 A9 B1 09 EB EA B6 50 18 F5 3C 31 84 00 00 17 03 03 01 1B 00 00 00 00 00 00 00 9D B5 4F 2C FF 87 C3 AF 46 74 29 98 EA 6B AB 4C 37 BC CF D4 91 48 10 72 9E 65 D2 97 06 7C B5 18 1D 93 44 8A FD 04 39 43 DF F5 DD 26 CE 41 C4 66 B1 D8 2C 52 8F 5D 5B 94 BF BE B2 6C B5 D4 F1 52 95 0A 4D CA 8B 93 80 84 B3 20 5E 71 9A AF AC 9C 1B 8D 7A C0 9D CC 36 93 DC 0C 2A 08 00 79 D4 20 29 14 59 92 8D 9A F7 89 2C FA AF 2C AE 15 4E 94 CA CF E4 03 81 3A 33 84 A3 FF 96 E3 65 B3 AF 77 91 6E E9 18 36 2E B3 28 8B 11 7E 92 AF FA C0 76 69 BB 24 7A 1A BF 1C E1 EB AB 66 4E DC A6 8D EA CF A4 DF CA A3 43 41 E8 90 15 C9 6F EF 4E 12 33 23 07 4B A5 B2 1D E7 28 16 20 80 C5 89 63 E3 56 0C 4B 6D 4C FC 80 85 1F 53 80 35 E2 30 3C D7 00 45 2E 67 6E 2F E1 8F E3 D0 0F AE BA C5 DF 11 22 E2 3E AE D0 BB 2D B1 85 3B 88 70 DE 50 90 8F C0 D7 0A C3 88 23 9A 3D 0A 40 1B 6F FF 4E 8A A9 A6 68 67 CD 2F D6 E5 AB 4E 31 04 88 B5 2A 76 9C C5 A1 8A 4E 1B 
-Direccion IP fuente -> 10.0.2.15
-Direccion IP destino -> 35.170.0.145
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 328 Bytes
-Identificador del datagrama -> 44920
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 308 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> No
-Numero de fragmento -> Ultimo
-1er byte del datagrama -> 00
-Ultimo byte del datagrama -> 00
-
--------------ANALISIS TRAMA NUM. 9-------------
-
-08 00 27 86 09 55 52 54 00 12 35 02 08 00 45 00 00 28 81 0F 00 00 40 06 6F 32 68 12 16 6E 0A 00 02 0F 01 BB AC 4A 09 D6 00 B1 84 C9 B4 B5 50 10 FF FF 33 3A 00 00 00 00 00 00 00 00 
-Direccion IP fuente -> 104.18.22.110
-Direccion IP destino -> 10.0.2.15
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 40 Bytes
-Identificador del datagrama -> 33039
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 20 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> Si
-Numero de fragmento -> Unico
-1er byte del datagrama -> 00
-Ultimo byte del datagrama -> D7
-
--------------ANALISIS TRAMA NUM. 10-------------
-
-52 54 00 12 35 02 08 00 27 86 09 55 08 00 45 00 00 45 58 9E 40 00 40 06 57 86 0A 00 02 0F 68 12 16 6E AC 4A 01 BB 84 C9 B4 98 09 D6 00 B1 50 18 FF FF 8A C6 00 00 17 03 03 00 18 B3 D7 98 6B 29 11 BC 52 7E 61 9A D0 DD 79 51 17 84 EC 72 C9 8D 34 61 3F 
-Direccion IP fuente -> 10.0.2.15
-Direccion IP destino -> 104.18.22.110
-Longitud de cabecera en bytes -> 20 Bytes 
-Longitud total del datagrama IP en bytes -> 69 Bytes
-Identificador del datagrama -> 22686
-Tiempo de vida -> 64
-Protocolo de capa superior -> 0x06 | TCP
-Longitud de carga util -> 49 Bytes 
-Tipo de servicio -> control de red
-Fragmentado -> No
-Numero de fragmento -> Ultimo
-1er byte del datagrama -> 00
-Ultimo byte del datagrama -> 00
+Total de tramas por tamaño
+	0 - 159: 6
+	160 - 639: 1
+	640 - 1279: 2
+	1280 - 5119: 1
+	5120 o más: 0

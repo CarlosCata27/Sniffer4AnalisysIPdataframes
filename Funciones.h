@@ -1,4 +1,4 @@
-int socketRaw,aux,tramasTotales,numerotr,Clen1 = 0, Clen2 = 0, Clen3 = 0, Clen4 = 0, Clen5 = 0,ICMPv4 = 0, IGMP = 0, IP = 0, TCP = 0, UDP = 0, IPv6 = 0, OSPF = 0, OTHER = 0,TramasIPv4=0,auxtramasTotales;
+int socketRaw,aux,tramasTotales,numerotr,Packetlen1 = 0, Packetlen2 = 0, Packetlen3 = 0, Packetlen4 = 0, Packetlen5 = 0,ICMPv4 = 0, IGMP = 0, IP = 0, TCP = 0, UDP = 0, IPv6 = 0, OSPF = 0,TramasIPv4=0,auxtramasTotales,i=0,impresionIPaux = 0,direccionIP = 0, visitado = 0,j=0,k=0;
 FILE *Archivo;
 struct iphdr *addr_ip_hdr;
 struct sockaddr_in addr_dest, addr_src;
@@ -43,12 +43,12 @@ void *CapturadeTramas(void *arg){
     Tramas eth_hdr;
     int sock_aux = *(int *)arg;
     //Se recorren todas las tramas solicitadas
-    //for(int i = tramasTotales;i>=0;i--){
+    
     while(tramasTotales){
         tramasTotales--;
         int n = recvfrom(sock_aux, frame_buff, 2048, 0, (struct sockaddr*)&frame_i_aux, (socklen_t*)&frame_i_len_aux);
         if(n < 0)
-            printf("\nError al recibir trama - %d\n", tramasTotales);                
+            fprintf(Archivo,"\nError al recibir trama - %d\n", tramasTotales);                
         else{
             //Verificacion de que el tamaño sea valido
             if(n > sizeof(struct ethhdr)){
@@ -68,257 +68,210 @@ void *CapturadeTramas(void *arg){
 }
 
 void *AnalisisdeTrama(void *arg){
-    int frameA_piv = 0;
-    int Payload_size;
-    int frame_frag;
-    int *servicio;
-
-    while(frameA_piv != auxtramasTotales)
+    int auxtramaAnalizada = 0,flagTrama,tamañoTrama;
+    while(auxtramaAnalizada != auxtramasTotales)
     {
-
-        //Frame y eth header
         struct ethhdr *eth_hdr;
         struct iphdr *ip_hdr;
 
-        /* Si son frames válidas */
-        if(eth_frames[frameA_piv].valida == 1)
+        //Verificamos que las tramas sean validas para analizar
+        if(eth_frames[auxtramaAnalizada].valida == 1)
         {            
-            printf("\n-------------ANALISIS TRAMA NUM. %d-------------\n\n", frameA_piv+1);
-            fprintf(Archivo, "\n-------------ANALISIS TRAMA NUM. %d-------------\n\n", frameA_piv+1);
+            fprintf(Archivo, "Analizando trama -- %d --\n", auxtramaAnalizada+1);
             
-            
-            int print_piv  = eth_frames[frameA_piv].longitud;
-            unsigned char *p = eth_frames[frameA_piv].buffer;
-            /*Imprimir trama*/
-            while(print_piv--)
-            {
-                fprintf(Archivo, "%.2X ", *p);
-                p++;
-            }
+            int impresionTrama = eth_frames[auxtramaAnalizada].longitud;
+            unsigned char *p = eth_frames[auxtramaAnalizada].buffer;                                    
+            eth_hdr = (struct ethhdr *)p;
 
-            printf("\n");
-            fprintf(Archivo, "\n");
-            
-            /*Verificar frame*/
-            print_piv = eth_frames[frameA_piv].longitud;
-            unsigned char *new_p = eth_frames[frameA_piv].buffer;                                    
-            eth_hdr = (struct ethhdr *)new_p;
-
-            //Verificación header
-            if(ntohs(eth_hdr->h_proto) == ETH_P_IP)
-            {
-                if(print_piv >= (sizeof(struct ethhdr)+sizeof(struct iphdr)))
-                {
-                    /*Contador global de tramas*/
+            //Verificación del header
+            if(ntohs(eth_hdr->h_proto) == ETH_P_IP){
+                if(impresionTrama >= (sizeof(struct ethhdr)+sizeof(struct iphdr))){
                     TramasIPv4++;
+                    //Analisis del header
+                    ip_hdr = (struct iphdr*)(p+sizeof(struct ethhdr));
 
-                    //salto al ip hdr
-                    ip_hdr = (struct iphdr*)(new_p+sizeof(struct ethhdr));
+                    fprintf(Archivo,"Direccion IP de fuente: %s\t",inet_ntoa(*(struct in_addr*)&ip_hdr->saddr));
+                    fprintf(Archivo,"Direccion IP de destino: %s\n",inet_ntoa(*(struct in_addr*)&ip_hdr->daddr));
+                    fprintf(Archivo, "Longitud de cabecera: %d Bytes  \tLongitud total del datagrama IP: %d Bytes\n", (unsigned int)ip_hdr->ihl*4,ntohs(ip_hdr->tot_len));
+                    fprintf(Archivo,"Identificador del datagrama: %d\tTTL: %d \n", ntohs(ip_hdr->id),ip_hdr->ttl);
 
-                    printf("Direccion IP fuente -> %s\n", inet_ntoa(*(struct in_addr*)&ip_hdr->saddr));
-                    fprintf(Archivo, "Direccion IP fuente -> %s\n", inet_ntoa(*(struct in_addr*)&ip_hdr->saddr));
-
-                    printf("Direccion IP destino ->%s\n", inet_ntoa(*(struct in_addr*)&ip_hdr->daddr));
-                    fprintf(Archivo, "Direccion IP destino -> %s\n", inet_ntoa(*(struct in_addr*)&ip_hdr->daddr));
-
-                    printf("Longitud de cabecera en bytes -> %d Bytes \n", (unsigned int)ip_hdr->ihl*4);
-                    fprintf(Archivo, "Longitud de cabecera en bytes -> %d Bytes \n", (unsigned int)ip_hdr->ihl*4);
-
-                    printf("Longitud total del datagrama IP en bytes -> %d Bytes\n", ntohs(ip_hdr->tot_len));
-                    fprintf(Archivo, "Longitud total del datagrama IP en bytes -> %d Bytes\n", ntohs(ip_hdr->tot_len));
-
-                    printf("Identificador del datagrama -> %d\n", ntohs(ip_hdr->id));
-                    fprintf(Archivo, "Identificador del datagrama -> %d\n", ntohs(ip_hdr->id));
-
-                    printf("Tiempo de vida -> %d \n", ip_hdr->ttl);
-                    fprintf(Archivo, "Tiempo de vida -> %d\n", ip_hdr->ttl);
-                    int prot = ip_hdr->protocol;
-
-                    /*Impresión protocolo de capa superior*/
-                    switch (prot)
-                    {
-                        case 1:
-                            ICMPv4++;
-                            printf("Protocolo de capa superior -> 0x%.2X | ICMPv4\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | ICMPv4\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        case 2:
-                            IGMP++;
-                            printf("Protocolo de capa superior -> 0x%.2X | IGMP\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | ICMPv4\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        case 4:
-                            IP++;
-                            printf("Protocolo de capa superior -> 0x%.2X | IP\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | IP\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        case 6:
-                            TCP++;
-                            printf("Protocolo de capa superior -> 0x%.2X | TCP\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | TCP\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        case 11:
-                            UDP++;
-                            printf("Protocolo de capa superior -> 0x%.2X | UDP\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | UDP\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        case 29:
-                            IPv6++;
-                            printf("Protocolo de capa superior -> 0x%.2X | IPv6\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | IPv6\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        case 59:
-                            OSPF++;
-                            printf("Protocolo de capa superior -> 0x%.2X | OSPF\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | OSPF\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                        default:
-                            OTHER++;
-                            printf("Protocolo de capa superior -> 0x%.2X | OTHER\n", (unsigned int)ip_hdr->protocol);
-                            fprintf(Archivo, "Protocolo de capa superior -> 0x%.2X | OTHER\n", (unsigned int)ip_hdr->protocol);
-                        break;
-                    }
-
-                    //longtotal-longheader
-                    Payload_size = ntohs(ip_hdr->tot_len)-(unsigned int)ip_hdr->ihl*4;
-                    printf("Longitud de carga util -> %d Bytes \n", Payload_size);
-                    fprintf(Archivo, "Longitud de carga util -> %d Bytes \n", Payload_size);
-
+                    int tipoProtocolo = ip_hdr->protocol;
+                    //Impresion del tipo de protocolo de capa superior
+                    if(tipoProtocolo ==1){
+                        ICMPv4++;
+                        fprintf(Archivo, "Protocolo de capa superior ICMPv4: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else if(tipoProtocolo ==2){
+                        IGMP++;
+                        fprintf(Archivo, "Protocolo de capa superior IGMP: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else if(tipoProtocolo ==4){
+                        IP++;
+                        fprintf(Archivo, "Protocolo de capa superior IP: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else if(tipoProtocolo==6){
+                        TCP++;
+                        fprintf(Archivo, "Protocolo de capa superior TCP: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else if(tipoProtocolo==11){
+                        UDP++;
+                        fprintf(Archivo, "Protocolo de capa superior UDP: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else if(tipoProtocolo==29){
+                        IPv6++;
+                        fprintf(Archivo, "Protocolo de capa superior IPv6: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else if(tipoProtocolo==59){
+                        OSPF++;
+                        fprintf(Archivo, "Protocolo de capa superior OSPF: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
+                    }else
+                        fprintf(Archivo, "Protocolo de capa superior OTRO TIPO: 0x%.2X\t", (unsigned int)ip_hdr->protocol);
                     
-                    /*Paquete según tamaño*/
-                    if(Payload_size >= 0 && Payload_size <= 159)
-                        Clen1++;
-                    if(Payload_size > 159 && Payload_size <= 639)
-                        Clen2++;
-                    if(Payload_size > 639 && Payload_size <= 1279)
-                        Clen3++;
-                    if(Payload_size > 1279 && Payload_size <= 5119)
-                        Clen4++;
-                    if(Payload_size >= 5120)
-                        Clen5++;
 
-                    /* Verificación para el tipo de serivicio de ip_hdr->tos */
-                    int piv_tos = ip_hdr->tos;
-                    int *service = malloc(sizeof(int)*(3));
+                    //Longitud de carga util
+                    tamañoTrama = ntohs(ip_hdr->tot_len)-(unsigned int)ip_hdr->ihl*4;
+                    fprintf(Archivo, "Longitud de carga util: %d Bytes \n", tamañoTrama);
+
+                    //Clasificacion del tamaño del paquete
+                    if(tamañoTrama >= 0 && tamañoTrama <= 159)
+                        Packetlen1++;
+                    if(tamañoTrama > 159 && tamañoTrama <= 639)
+                        Packetlen2++;
+                    if(tamañoTrama > 639 && tamañoTrama <= 1279)
+                        Packetlen3++;
+                    if(tamañoTrama > 1279 && tamañoTrama <= 5119)
+                        Packetlen4++;
+                    if(tamañoTrama >= 5120)
+                        Packetlen5++;
+
+                    int auxtipoServicio = ip_hdr->tos;
+                    int *tipoServicio = malloc(sizeof(int)*(3));
 
                     for(int i = 0; i < 3; i++){
-
-                        //to binary
-                        //masks 0001, 0010, 0100, 1000
                         int m_aux = 1<<i;
-                        //
-                        int m_n = piv_tos&m_aux;
-
-                        //to binary complementary
+                        int m_n = auxtipoServicio&m_aux;
                         int bit = m_n>>i;
-                        service[i] = bit;                        
+                        tipoServicio[i] = bit;                        
                     }
-                    printf("\n");
-                     /*Verificación de servicio*/
-                    switch (*service)
-                    {
-                        case 1:
-                            //ICMPv4++;
-                            printf("Tipo de servicio -> rutina\n");
-                            fprintf(Archivo,"Tipo de servicio -> rutina\n");
-                        break;
-                        case 2:
-                            //IGMP++;
-                            printf("Tipo de servicio -> prioritario\n");
-                            fprintf(Archivo,"Tipo de servicio -> prioritario\n");
-                        break;
-                        case 3:
-                            //IP++;
-                            printf("Tipo de servicio -> inmediato\n");
-                            fprintf(Archivo,"Tipo de servicio -> inmediato\n");
-                        break;
-                        case 4:
-                            //TCP++;
-                            printf("Tipo de servicio -> relampago (flash)\n");
-                            fprintf(Archivo,"Tipo de servicio -> relampago (flash)\n");
-                        break;
-                        case 5:
-                            //UDP++;
-                            printf("Tipo de servicio -> invalidacion relampago (flash override)\n");
-                            fprintf(Archivo,"Tipo de servicio -> invalidacion relampago (flash override)\n");
-                        break;
-                        case 6:
-                            //IPv6++;
-                            printf("Tipo de servicio -> critico\n");
-                            fprintf(Archivo,"Tipo de servicio -> critico\n");
-                        break;
-                        case 7:
-                            //OSPF++;
-                            printf("Tipo de servicio -> control de interred\n");
-                            fprintf(Archivo,"Tipo de servicio -> control de interred\n");
-                        break;
-                        default:
-                            //OTHER++;
-                            printf("Tipo de servicio -> control de red\n");
-                            fprintf(Archivo,"Tipo de servicio -> control de red\n");
-                        break;
-                    }
-                    /*Verificación frame fragmentado*/
-                    frame_frag = ntohs(ip_hdr->frag_off)&&IP_DF;
+                     //Verificación del tipo de servicio
+                    if(*tipoServicio ==0)
+                        fprintf(Archivo,"Tipo de servicio: Rutina\n");
+                    else if(*tipoServicio ==1)
+                        fprintf(Archivo,"Tipo de servicio: Prioritario\n");
+                    else if(*tipoServicio ==2)
+                        fprintf(Archivo,"Tipo de servicio: Inmediato\n");
+                    else if(*tipoServicio ==3)
+                        fprintf(Archivo,"Tipo de servicio: Relampago (flash)\n");
+                    else if(*tipoServicio ==4)
+                        fprintf(Archivo,"Tipo de servicio: Invalidacion relampago (flash override)\n");
+                    else if(*tipoServicio ==5)
+                        fprintf(Archivo,"Tipo de servicio: Critico\n");
+                    else if(*tipoServicio ==6)
+                        fprintf(Archivo,"Tipo de servicio: Control de interred\n");
+                    else if(*tipoServicio ==7)
+                        fprintf(Archivo,"Tipo de servicio: Control de red\n");
+                    
+                    //Verificacion de la fragmentacion de la trama
+                    flagTrama = ntohs(ip_hdr->frag_off)&&IP_DF;
 
-                    if(frame_frag == 1)
-                    {
-                        printf("Fragmentado -> No\n");
-                        fprintf(Archivo, "Fragmentado -> No\n");
-                    }
-                    else if(frame_frag == 0)
-                    {
-                        printf("Fragmentado -> Si\n");
-                        fprintf(Archivo, "Fragmentado -> Si\n");
-                    }
-                    if(ntohs(ip_hdr->frag_off & 0x2000) > 0)
-                    {
-                        if(ntohs(ip_hdr->frag_off & 0x1FFF) == 0)
-                        {
-                            printf("Numero de fragmento -> Primero\n");
-                            fprintf(Archivo, "Numero de fragmento -> Primero\n");
-                        }
-                        else
-                        {
-                            printf("Numero de fragmento -> Intermedio\n");
-                            fprintf(Archivo, "Numero de fragmento -> Intermedio\n");    
-                        }
-                    }
-                    else
-                    {
-                        if(ntohs(ip_hdr->frag_off & 0x1FFF) > 0)
-                        {
-                            printf("Numero de fragmento -> Ultimo\n");
-                            fprintf(Archivo, "Numero de fragmento -> Ultimo\n");  
-                        }                    
-                        else
-                        {
-                            printf("Numero de fragmento -> Unico\n");
-                            fprintf(Archivo, "Numero de fragmento -> Unico\n");
-                        }                        
-                
-                    }
-                    /*Primer y último byte del frame*/
-                    printf("1er byte del datagrama -> %.2X\n", (unsigned char)new_p[ntohs(ip_hdr->tot_len)*4+1]);
-                    fprintf(Archivo, "1er byte del datagrama -> %.2X\n", (unsigned char)new_p[ntohs(ip_hdr->tot_len)*4+1]);
+                    if(flagTrama == 1)
+                        fprintf(Archivo, "Fragmentado: No\n");
+                    else if(flagTrama == 0){
+                        fprintf(Archivo, "Fragmentado: Si  \t");
 
-                    printf("Ultimo byte del datagrama -> %.2X\n", (unsigned char)new_p[print_piv]);
-                    fprintf(Archivo, "Ultimo byte del datagrama -> %.2X\n", (unsigned char)new_p[print_piv]);
-                }
-                else
-                {
-                    printf("Error al analizar el frame. Cabecera no completa\n");
+                        if(ntohs(ip_hdr->frag_off & 0x2000) > 0)
+                            if(ntohs(ip_hdr->frag_off & 0x1FFF) == 0)
+                                fprintf(Archivo, "Numero de fragmento: Primero\n");
+                            else
+                                fprintf(Archivo, "Numero de fragmento: Intermedio\n");    
+                        else
+                            if(ntohs(ip_hdr->frag_off & 0x1FFF) > 0)
+                                fprintf(Archivo, "Numero de fragmento: Ultimo\n");  
+                            else
+                                fprintf(Archivo, "Numero de fragmento: Unico\n");
+                    }
+                    //Primer y ultimo byte del datagrama
+                    fprintf(Archivo,"Primer byte del datagrama: %.2X\tUltimo byte del datagrama: %.2X\n\n", (unsigned char)p[ntohs(ip_hdr->tot_len)*4+1],(unsigned char)p[impresionTrama]);
+                }else
                     fprintf(Archivo, "Error al analizar el frame. Cabecera no completa\n");
-                }
-            }    
-            else
-            {
-                //printf("No es un paquete IP\n");
+                
+            }else
                 fprintf(Archivo, "No es un paquete IP\n");
-            }
-            frameA_piv++;
+            auxtramaAnalizada++;
         }
     }
     pthread_exit(0);
 }
 
+void Resultados(){
+    fprintf(Archivo,"--Resultados finales--\n");
+    fprintf(Archivo, "Total de tramas IPv4: %d\n", TramasIPv4);
+    fprintf(Archivo, "\nTramas analizadas de cada protocolo\n");
+    fprintf(Archivo,"\tICMPv4: %d\n\tIGMP: %d\n\tIP: %d\n\tTCP: %d\n\tUDP: %d\n\tIPv6: %d\n\tOSPF: %d\n",ICMPv4, IGMP, IP, TCP, UDP, IPv6, OSPF);
+  
+    unsigned char *addr_p = eth_frames[0].buffer;
+    addr = malloc(auxtramasTotales*sizeof(struct addresses));
+    
+    while(i<auxtramasTotales){
+        addr_p = eth_frames[i].buffer;
+        addr_ip_hdr = (struct iphdr*)(addr_p+sizeof(struct ethhdr));
+        memset(&addr_dest, 0, sizeof(addr_dest));
+        memset(&addr_src, 0, sizeof(addr_src));
+        addr_dest.sin_addr.s_addr = addr_ip_hdr->daddr;
+        addr_src.sin_addr.s_addr = addr_ip_hdr->saddr;
+
+        //Se verifican cada una de las direcciones guardadas
+        if(direccionIP > 0 ){
+             //Verificacion de si la direccion es igual a la fuente de la siguiente direccion
+            for (int j = 0; j < direccionIP; j++){
+                if(addr[j].addr.sin_addr.s_addr == addr_src.sin_addr.s_addr){
+                    visitado = 1;
+                    addr[j].count_send++;                    
+                    break;
+                }
+            }
+
+            if(visitado != 0)
+                visitado = 0;                
+            else{
+                //Si la direccion enviada es nueva se guarda
+                addr[direccionIP].addr.sin_addr.s_addr = addr_src.sin_addr.s_addr;                
+                addr[direccionIP].count_rec = 0;
+                addr[direccionIP].count_send = 1;
+                direccionIP++;
+            }
+
+            for (int k = 0; k < direccionIP; k++)
+                if(addr[k].addr.sin_addr.s_addr == addr_dest.sin_addr.s_addr){
+                    visitado = 1;
+                    addr[k].count_rec++;                    
+                    break;
+                }
+            
+            if(visitado != 0)
+                visitado = 0;                
+            else{
+                //Si la direccion recibida es nueva esta se guarda
+                addr[direccionIP].addr.sin_addr.s_addr = addr_dest.sin_addr.s_addr;                
+                addr[direccionIP].count_rec = 1;
+                addr[direccionIP].count_send = 0;
+                direccionIP++;
+            }
+        }else{
+            addr[0].addr.sin_addr.s_addr = addr_src.sin_addr.s_addr;            
+            addr[0].count_rec = 0;
+            addr[0].count_send = 1;
+            addr[1].addr.sin_addr.s_addr = addr_dest.sin_addr.s_addr;
+            addr[1].count_rec = 1; 
+            addr[1].count_send = 0;
+            direccionIP+=2;           
+        }
+        i++;
+    }
+    fprintf(Archivo, "\nTotal de tramas transmitidas y recibidas por direccion\n");
+    fprintf(Archivo,"Total de direcciones: %d\n", direccionIP);
+
+    while(impresionIPaux < direccionIP){
+        fprintf(Archivo,"\nDireccion #%d\n", impresionIPaux+1);
+        fprintf(Archivo, "\tIP: %s\n", inet_ntoa(addr[impresionIPaux].addr.sin_addr));
+        fprintf(Archivo, "\tTransmitidas: %d\n", addr[impresionIPaux].count_send);
+        fprintf(Archivo, "\tRecibidas: %d\n", addr[impresionIPaux].count_rec);
+        impresionIPaux++;
+    }
+    fprintf(Archivo, "\nTotal de tramas por tamaño\n");
+    fprintf(Archivo, "\t0 - 159: %d\n\t160 - 639: %d\n\t640 - 1279: %d\n\t1280 - 5119: %d\n\t5120 o más: %d\n",Packetlen1,Packetlen2,Packetlen3,Packetlen4,Packetlen5);
+}
